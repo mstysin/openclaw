@@ -5,14 +5,16 @@ Deploy OpenClaw to a VPS (Hetzner, DigitalOcean, etc.) with Docker.
 ## Quick Start
 
 ### 1. Provision a VPS
-- Hetzner CX22: 2 vCPU, 4GB RAM, ~$5/mo (recommended)
+- Hetzner CX23: 2 vCPU, 4GB RAM (recommended)
 - Minimum: 2GB RAM, Debian/Ubuntu
+- **REQUIRED: add your SSH public key in the Hetzner Cloud UI at creation time.** Do NOT set a root password and harden later — `vps-setup.sh` will refuse to run if `/root/.ssh/authorized_keys` is empty. (Learned the hard way: a deferred-hardening box was brute-forced within 3 days and Hetzner locked the IP.)
 
 ### 2. Run setup on the VPS
 ```bash
 ssh root@YOUR_VPS_IP
 curl -fsSL https://raw.githubusercontent.com/mstysin/openclaw/main/deploy/vps-setup.sh | bash
 ```
+The script will immediately disable password SSH, lock the root password, enable fail2ban, and enable UFW before touching anything else.
 
 ### 3. Add your API keys
 ```bash
